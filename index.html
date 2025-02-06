@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-cn">
 
 <head>
-  <meta charset="UTF-8">
+  <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Í¼Æ¬Ë®Ó¡¹¤¾ß watermark</title>
+  <title>å›¾ç‰‡æ°´å°å·¥å…· watermark</title>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -29,15 +29,15 @@
 </head>
 
 <body>
-  <h2>ÉÏ´«Í¼Æ¬²¢Ìí¼ÓË®Ó¡</h2>
+  <h2>ä¸Šä¼ å›¾ç‰‡å¹¶æ·»åŠ æ°´å°</h2>
   <input type="file" id="imageInput" accept="image/*"><br><br>
-  <input type="text" id="watermarkText" placeholder="ÊäÈëË®Ó¡ÎÄ×Ö"><br><br>
-  <button onclick="applyWatermark()">Ìí¼ÓË®Ó¡</button>
+  <input type="text" id="watermarkText" placeholder="è¾“å…¥æ°´å°æ–‡å­—"><br><br>
+  <button onclick="applyWatermark()">æ·»åŠ æ°´å°</button>
   <br><br>
   <canvas id="canvas"></canvas>
   <br><br>
-  <button onclick="downloadImage('png')">ÏÂÔØ PNG</button>
-  <button onclick="downloadImage('jpg')">ÏÂÔØ JPG</button>
+  <button onclick="downloadImage('png')">ä¸‹è½½ PNG</button>
+  <button onclick="downloadImage('jpg')">ä¸‹è½½ JPG</button>
 
   <script>
     let uploadedImage = null;
@@ -63,17 +63,17 @@
 
     function applyWatermark() {
       if (!uploadedImage) {
-        alert('ÇëÏÈÉÏ´«Í¼Æ¬');
+        alert('è¯·å…ˆä¸Šä¼ å›¾ç‰‡');
         return;
       }
       const text = document.getElementById('watermarkText').value;
       if (!text) {
-        alert('ÇëÊäÈëË®Ó¡ÎÄ×Ö');
+        alert('è¯·è¾“å…¥æ°´å°æ–‡å­—');
         return;
       }
       ctx.drawImage(uploadedImage, 0, 0);
       ctx.font = "20px Microsoft YaHei";
-      ctx.fillStyle = "rgba(255, 0, 0, 0.5)"; // ĞŞ¸ÄË®Ó¡ÑÕÉ«ÎªºìÉ«
+      ctx.fillStyle = "rgba(255, 0, 0, 0.5)"; // ä¿®æ”¹æ°´å°é¢œè‰²ä¸ºçº¢è‰²
       ctx.textAlign = "center";
       ctx.textBaseline = "middle";
       const stepX = 200, stepY = 100;
@@ -90,7 +90,7 @@
 
     function downloadImage(format) {
       if (!uploadedImage) {
-        alert('ÇëÏÈÉÏ´«²¢Ìí¼ÓË®Ó¡');
+        alert('è¯·å…ˆä¸Šä¼ å¹¶æ·»åŠ æ°´å°');
         return;
       }
       const link = document.createElement('a');
