@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>图片水印工具 watermark</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+    }
+
+    canvas {
+      max-width: 100%;
+      margin-top: 10px;
+    }
+
+    #watermark-text {
+      font-family: 'Microsoft YaHei';
+      position: absolute;
+      top: -1000px;
+      display: inline-block;
+      font-size: 20px;
+      line-height: 20px;
+      padding: 10px;
+    }
+  </style>
+</head>
+
+<body>
+  <h2>上传图片并添加水印</h2>
+  <input type="file" id="imageInput" accept="image/*"><br><br>
+  <input type="text" id="watermarkText" placeholder="输入水印文字"><br><br>
+  <button onclick="applyWatermark()">添加水印</button>
+  <br><br>
+  <canvas id="canvas"></canvas>
+  <br><br>
+  <button onclick="downloadImage('png')">下载 PNG</button>
+  <button onclick="downloadImage('jpg')">下载 JPG</button>
+
+  <script>
+    let uploadedImage = null;
+    const canvas = document.getElementById('canvas');
+    const ctx = canvas.getContext('2d');
+
+    document.getElementById('imageInput').addEventListener('change', function (event) {
+      const file = event.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = function (e) {
+        const img = new Image();
+        img.onload = function () {
+          canvas.width = img.width;
+          canvas.height = img.height;
+          ctx.drawImage(img, 0, 0);
+          uploadedImage = img;
+        };
+        img.src = e.target.result;
+      };
+      reader.readAsDataURL(file);
+    });
+
+    function applyWatermark() {
+      if (!uploadedImage) {
+        alert('请先上传图片');
+        return;
+      }
+      const text = document.getElementById('watermarkText').value;
+      if (!text) {
+        alert('请输入水印文字');
+        return;
+      }
+      ctx.drawImage(uploadedImage, 0, 0);
+      ctx.font = "20px Microsoft YaHei";
+      ctx.fillStyle = "rgba(255, 0, 0, 0.5)"; // 修改水印颜色为红色
+      ctx.textAlign = "center";
+      ctx.textBaseline = "middle";
+      const stepX = 200, stepY = 100;
+      for (let x = 0; x < canvas.width; x += stepX) {
+        for (let y = 0; y < canvas.height; y += stepY) {
+          ctx.save();
+          ctx.translate(x, y);
+          ctx.rotate(-30 * Math.PI / 180);
+          ctx.fillText(text, 0, 0);
+          ctx.restore();
+        }
+      }
+    }
+
+    function downloadImage(format) {
+      if (!uploadedImage) {
+        alert('请先上传并添加水印');
+        return;
+      }
+      const link = document.createElement('a');
+      link.download = `watermarked_image.${format}`;
+      link.href = canvas.toDataURL(`image/${format}`);
+      link.click();
+    }
+  </script>
+</body>
+
+</html>
